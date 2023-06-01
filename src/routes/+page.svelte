@@ -3,7 +3,7 @@
   import Paper from "./Paper.svg?component";
   import Rock from "./Rock.svg?component";
   import Scissors from "./Scissors.svg?component";
-  import { fade, fly } from "svelte/transition";
+  import { fade } from "svelte/transition";
   let selected = "";
   let seconds = 5;
   let listofchosable = ["rock", "paper", "scissors"];
@@ -79,7 +79,7 @@
   class:playerwon={winnermsg === "Player wins!"}
   class="main"
 >
-  <div class="container">
+  <div class="container" style="border:4px red solid;">
     <div class="smoothball" style="left: {randomX}px;" />
     <div class="item">
       <Rock />
@@ -91,7 +91,11 @@
       <Scissors />
     </div>
   </div>
-  <div class="container" on:click={handleClick}>
+  <div
+    class="container"
+    style="border:4px rgba(0, 255, 0, 0.5) solid;"
+    on:click={handleClick}
+  >
     {#if noclick === false}
       <div
         class="smoothball"
@@ -155,9 +159,8 @@
     gap: 10px;
     justify-content: center;
     width: 170px;
-    background-color: #7f13ab;
+    background-color: transparent;
     height: 55px;
-    border: #dd0453 solid 4px;
     border-radius: 60px;
   }
   .smoothball {
@@ -176,6 +179,7 @@
     border: white 2px solid;
     border-radius: 50px;
     color: white;
+    font-size: 25px;
     background-color: transparent;
     width: 100px;
     height: 55px;
