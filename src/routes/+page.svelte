@@ -24,18 +24,12 @@
     const clickX = event.clientX - containerLeft;
 
     // Check if the click falls within the desired ranges
-    if (
-      (clickX >= -10 && clickX <= 50) ||
-      (clickX >= 60 && clickX <= 110) ||
-      (clickX >= 120 && clickX <= 170)
-    ) {
-      const rangeIndex = Math.floor((clickX - 10) / 60); // Calculate the index of the clicked range
-      const middlePosition = 60 * rangeIndex + 35; // Calculate the middle position of the clicked range
-
-      ballX = middlePosition - 27.5; // Half the width of the ball
-
-      // Restrict the ball position within the container
-      ballX = Math.max(0, Math.min(ballX, containerWidth - 55)) - 7.5;
+    if (clickX >= 0 && clickX <= 50) {
+      ballX = 0;
+    } else if (clickX >= 60 && clickX <= 110) {
+      ballX = 60;
+    } else {
+      ballX = 120;
     }
   }
 
