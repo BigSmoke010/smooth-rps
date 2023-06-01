@@ -3,12 +3,20 @@
   import Paper from "./Paper.svg?component";
   import Rock from "./Rock.svg?component";
   import Scissors from "./Scissors.svg?component";
-  import { fade } from "svelte/transition";
+  import { fade, scale } from "svelte/transition";
+  import { quintOut } from "svelte/easing";
   let selected = "";
   let seconds = 5;
   let listofchosable = ["rock", "paper", "scissors"];
   let listofmids = [0, 60, 120];
   let botselected = listofchosable[random.integer(0, 2)];
+  let setfive = false;
+  let setfour = false;
+  let setthree = false;
+  let settwo = false;
+  let setone = false;
+  let setzero = false;
+  let listofsets = [setzero, setone, settwo, setthree, setfour, setfive];
   let gameover = false;
   let winnermsg = "none";
   let ballX = 0;
@@ -47,6 +55,10 @@
         chosenint = random.integer(0, 2);
         botselected = listofchosable[chosenint];
         randomX = listofmids[chosenint];
+        listofsets[seconds - 1] = true;
+        if (seconds - 1 < 4) {
+          listofsets[seconds] = false;
+        }
       } else {
         clearInterval(countdown);
         gameover = true;
@@ -108,10 +120,16 @@
     </div>
   </div>
 
-  <p>you have {seconds} seconds left!!!!!</p>
+  {#if seconds === 4}<p class="countdownnum">4</p>{/if}
+  {#if seconds === 3}<p class="countdownnum">3</p>{/if}
+  {#if seconds === 2}<p class="countdownnum">2</p>{/if}
+  {#if seconds === 1}<p class="countdownnum">1</p>{/if}
+  {#if seconds === 0}<p class="countdownnum">0</p>{/if}
   {#if gameover === true}
-    <p>{winnermsg} !!!!!</p>
-    <button class="retrybtn" on:click={startcountdown}>retry</button>
+    <h1 transition:fade={{ duration: 1000 }} class="winner">{winnermsg}</h1>
+    <button transition:fade class="retrybtn" on:click={startcountdown}
+      >retry</button
+    >
   {/if}
 </div>
 
@@ -169,6 +187,7 @@
     filter: drop-shadow(0px 0px 10px);
   }
   .retrybtn {
+    position: absolute;
     transition: background-color 1s;
     border: white 2px solid;
     border-radius: 50px;
@@ -177,11 +196,42 @@
     background-color: transparent;
     width: 100px;
     height: 55px;
+    bottom: 10%;
   }
   .retrybtn:hover {
     cursor: pointer;
     background-color: white;
     color: black;
+  }
+  .countdownnum {
+    font-size: 42px;
+    position: absolute;
+    top: 10%;
+    animation: showhide 1s forwards;
+  }
+  @keyframes showhide {
+    0% {
+      top: 5%;
+      scale: 50%;
+    }
+    50% {
+      top: 13%;
+      scale: 200%;
+      transform: rotate(20deg);
+    }
+    100% {
+      top: 20%;
+      scale: 10%;
+      transform: rotate(30deg);
+      opacity: 0.1;
+    }
+  }
+  .winner {
+    font-size: 38px;
+    color: white;
+    margin-bottom: 20px;
+    position: absolute;
+    bottom: 30%;
   }
   .item {
     border-radius: 50%;
